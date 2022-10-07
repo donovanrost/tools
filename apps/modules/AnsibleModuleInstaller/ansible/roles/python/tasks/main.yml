@@ -1,0 +1,72 @@
+---
+
+- name: Check if XCode Command Line Tools are installed
+  shell: xcode-select -p
+  register: xcode_check_result
+
+- name: Install XCode Command Line Tools
+  shell: xcode-select --install
+  when: xcode_check_result.rc == 1
+
+- name: Install Python Build Environment Tools
+  community.general.homebrew:
+    update_homebrew: yes
+    name:
+      - openssl
+      - readline
+      - sqlite3
+      - xz
+      - zlib
+
+- name: Install pyenv
+  community.general.homebrew:
+    update_homebrew: yes
+    name: pyenv
+
+- name: Configure profile to use pyenv
+  lineinfile:
+    line: eval "$(pyenv init --path)"
+    state: present
+    path: "{{profile_path}}"
+
+- name: Configure profile to use pyenv
+  lineinfile:
+    line: eval "$(pyenv init -)"
+    state: present
+    path: "{{profile_path}}"
+
+- name: Ensure PYENV_ROOT is in profile
+  lineinfile:
+    line: 'export PYENV_ROOT="$HOME/.pyenv"'
+    state: present
+    path: "{{profile_path}}"
+
+- name: Update PATH to include PYENV_ROOT
+  lineinfile:
+    line: export PATH="$PYENV_ROOT/bin:$PATH"
+    state: present
+    path: "{{profile_path}}"
+
+- name: Ensure pyenv shims are on path
+  lineinfile:
+    line: export PATH="$PYENV_ROOT/shims:$PATH"
+    state: present
+    path: "{{profile_path}}"
+
+- name: Ensure pyenv shims are on path
+  lineinfile:
+    line: export PATH="$PYENV_ROOT/versions:$PATH"
+    state: present
+    path: "{{profile_path}}"
+
+- name: Check which versions of python are installed
+  shell: pyenv versions
+  register: pyenv_versions_output
+
+- name: Download a modern version of python
+  shell: pyenv install 3.9.0
+  when: pyenv_versions_output.stdout is not search("3\.9\.0)"
+
+- name: Configure pyenv to point to the previously downloaded version
+  shell: pyenv global 3.9.0
+

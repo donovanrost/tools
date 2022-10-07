@@ -1,0 +1,24 @@
+---
+
+- name: Check if homebrew is installed
+  shell: which brew
+  register: which_brew_result
+  when: ansible_distribution == 'MacOSX'
+
+- name: print return information from the previous task
+  ansible.builtin.debug:
+    var: which_brew_result
+
+- name: Install Homebrew
+  shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  when: which_brew_result.rc == 1
+
+- name: Check that Homebrew was successfully installed
+  shell: which brew
+  register: brew_installed
+  when: ansible_distribution == 'MacOSX'
+
+- name: Update Homebrew
+  community.general.homebrew:
+    update_homebrew: yes
+  when: brew_installed.rc == 0

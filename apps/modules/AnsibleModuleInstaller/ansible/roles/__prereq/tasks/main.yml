@@ -1,0 +1,57 @@
+---
+- name: Register .btstrp  path into variable
+  shell: echo "$HOME/{{bootstrap_dir}}"
+  register: btstrp_path_result
+
+- name: Register .btsrp path
+  set_fact:
+    btstrp_path={{ btstrp_path_result.stdout }}
+
+- name: Register file paths
+  set_fact:
+    rc_path={{ btstrp_path }}/{{ rc_file }}
+    profile_path={{ btstrp_path }}/{{ profile_file }}
+    alias_path={{ btstrp_path }}/{{ alias_file }}
+
+- name: Create .btstrp directory if it doesn't exist
+  file:
+    state: directory
+    path: "{{ btstrp_path }}"
+    mode: 0744
+
+- name: Create a profile file if it doesn't yet exist
+  ansible.builtin.file:
+    path: "{{ profile_path }}"
+    state: touch
+    mode: 0644
+
+- name: Create an rc file if it doesn't yet exist
+  ansible.builtin.file:
+    path: "{{ rc_path }}"
+    state: touch
+    mode: 0644
+
+- name: Create a alias file if it doesn't yet exist
+  ansible.builtin.file:
+    path: "{{ alias_path }}"
+    state: touch
+    mode: 0644
+
+- name: Add modules rc to .zshrc
+  ansible.builtin.lineinfile:
+    path: "~/.zshrc"
+    line: "source {{ rc_path }}"
+    state: present
+
+- name: Add modules alias to .rc
+  ansible.builtin.lineinfile:
+    path: "{{ rc_path }}"
+    line: "source {{ alias_path }}"
+    state: present
+
+- name: Add modules profile to .rc
+  ansible.builtin.lineinfile:
+    path: "{{ rc_path }}"
+    line: "source {{ profile_path }}"
+    state: present
+

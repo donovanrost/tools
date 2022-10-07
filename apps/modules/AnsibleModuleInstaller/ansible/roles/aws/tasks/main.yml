@@ -1,0 +1,5 @@
+---
+
+- name: Install awscli
+  community.general.homebrew:
+    name: awscli

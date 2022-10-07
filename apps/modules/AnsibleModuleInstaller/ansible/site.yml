@@ -1,0 +1,54 @@
+---
+
+- hosts: local
+  gather_facts: yes
+#  become: yes
+  vars_files:
+    - ./vars/internal_vars.yml
+  pre_tasks:
+    - name: Import prereq
+      import_tasks: ./roles/__prereq/tasks/main.yml
+      tags:
+        - always
+
+  post_tasks:
+    - name: Import postreq
+      import_tasks: ./roles/__postreq/tasks/main.yml
+      tags:
+        - always
+  roles:
+    - role: aliases
+      tags:
+        - aliases
+    - role: asdf
+      tags:
+        - asdf
+    - role: homebrew
+      tags:
+        - homebrew
+      description: Installs and configures homebrew
+    - role: docker
+      tags:
+        - docker
+      description: Installs and configures docker and some related tooling
+
+    - role: terraform
+      tags:
+        - terraform
+      description: Installs and configures Terraform
+      dependencies:
+        -
+    - role: aws
+      tags:
+        - aws
+      description: Instals and configures awscli
+    - role: python
+      tags:
+        - python
+        - programming-languages
+      description: Installs and configures the python programming language
+    - role: nodejs
+      tags:
+        - nodejs
+        - programming-languages
+      description: Installs and configures the python programming language

@@ -1,0 +1,13 @@
+---
+
+- name: Install asdf
+  community.general.homebrew:
+    name: asdf
+    update_homebrew: yes
+  when: ansible_distribution == 'MacOSX'
+
+- name: Add asdf script to profile
+  lineinfile:
+    line: "source $(brew --prefix asdf)/libexec/asdf.sh"
+    path: "{{profile_path}}"
+

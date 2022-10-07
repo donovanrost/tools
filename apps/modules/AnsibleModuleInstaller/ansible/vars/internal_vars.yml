@@ -1,0 +1,5 @@
+---
+bootstrap_dir: ".btstrp"
+rc_file: ".rc"
+profile_file: ".profile"
+alias_file: ".alias"

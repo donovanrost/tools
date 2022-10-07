@@ -1,0 +1,9 @@
+---
+
+- name: Install Docker
+  community.general.homebrew_cask:
+    name: docker
+
+- name: Install LazyDocker
+  community.general.homebrew:
+    name: lazydocker

@@ -1,0 +1,13 @@
+---
+
+- name: Check if asdf plugin list has terrform
+  shell: asdf plugin list | grep terraformn
+  register: has_tf_plugin
+  failed_when: has_tf_plugin.rc > 1
+
+- name: Install terrform asdf plugin
+  shell: asdf plugin-add terraform https://github.com/asdf-community/asdf-hashicorp.git
+  when: has_tf_plugin.rc == 1
+
+- name: Install terraform version 1.3.2
+  shell: asdf install terraform 1.3.2

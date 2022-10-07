@@ -1,0 +1,13 @@
+---
+
+- name: Install ranger
+  community.general.homebrew:
+    name: ranger
+
+- name: Install ranger
+  community.general.homebrew:
+    name: tree
+
+- name: Install exa
+  community.general.homebrew:
+    name: exa

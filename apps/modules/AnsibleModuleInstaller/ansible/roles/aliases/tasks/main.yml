@@ -1,0 +1,19 @@
+---
+
+- name: Add alias to grep history
+  lineinfile:
+    line: "alias gh='history|grep'"
+    path: "{{ alias_path }}"
+
+- name: Add alias to colorize grep output
+  lineinfile:
+    line: "alias grep='grep --color=auto'"
+    path: "{{ alias_path }}"
+
+- name: Add git alias for checkout
+  shell:
+    cmd: git config --global alias.co checkout
+
+- name: Add git aliase for cherry-pick
+  shell:
+    cmd: git config --global alias.cp cherry-pick
