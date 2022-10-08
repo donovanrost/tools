@@ -20,34 +20,44 @@
     - role: aliases
       tags:
         - aliases
+      description: Installs a handful command line aliases
+
     - role: asdf
       tags:
         - asdf
+      description: Installs asdf, which a tool version manager
+
     - role: homebrew
       tags:
         - homebrew
       description: Installs and configures homebrew
+
     - role: docker
       tags:
         - docker
+        - cloud-tools
       description: Installs and configures docker and some related tooling
 
     - role: terraform
       tags:
         - terraform
+        - cloud-tools
       description: Installs and configures Terraform
 
     - role: aws
       tags:
         - aws
+        - cloud-tools
       description: Instals and configures awscli
+
     - role: python
       tags:
         - python
         - programming-languages
       description: Installs and configures the python programming language
+
     - role: nodejs
       tags:
         - nodejs
         - programming-languages
-      description: Installs and configures the python programming language
+      description: Installs and configures nodejs
