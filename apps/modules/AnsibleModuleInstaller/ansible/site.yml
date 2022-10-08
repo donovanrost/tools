@@ -36,8 +36,7 @@
       tags:
         - terraform
       description: Installs and configures Terraform
-      dependencies:
-        -
+
     - role: aws
       tags:
         - aws

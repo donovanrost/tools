@@ -42,11 +42,12 @@ def select_roles():
     answers = inquirer.prompt(questions)['modules']
 
     if not answers:
-      typer.echo("Nothing selected... exiting!")
-      sys.exit(0)
+        typer.echo("Nothing selected... exiting!")
+        sys.exit(0)
     if answers:
         typer.echo(f"Installing {answers}")
         installer.install_modules(answers)
+
 
 if __name__ == "__main__":
     sys.exit(1)
