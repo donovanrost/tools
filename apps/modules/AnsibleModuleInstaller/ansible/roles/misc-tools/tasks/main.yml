@@ -1,13 +1,50 @@
 ---
 
-- name: Install ranger
+- name: Ensure ranger is installed
   community.general.homebrew:
     name: ranger
 
-- name: Install ranger
+- name: Ensure bat is installed
   community.general.homebrew:
-    name: tree
+    name: bat
 
-- name: Install exa
+- name: Ensure MANPAGER is set to use bat
+  lineinfile:
+    line: "export MANPAGER=\"sh -c 'col -bx | bat -l man -p'\""
+    path: "{{ profile_path }}"
+
+- name: Ensure fzf is installed
   community.general.homebrew:
-    name: exa
+    name: fzf
+
+- name: Ensure jq is installed
+  community.general.homebrew:
+    name: jq
+
+# TODO: Consider using an lsd config file for this
+- name: Ensure lsd is installed
+  community.general.homebrew:
+    name: lsd
+
+- name: Ensure lsd is used inplace of ls
+  lineinfile:
+    line: "alias ls='lsd'"
+    path: "{{ alias_path }}"
+
+- name: Ensure lsd is used instead of tree
+  lineinfile:
+    line: "alias tree='lsd --tree'"
+    path: "{{ alias_path }}"
+
+- name: Ensure thefuck is installed
+  community.general.homebrew:
+    name: fuck
+
+- name: Ensure bottom is installed
+  community.general.homebrew:
+    name: bottom
+
+
+- name: Ensure shellcheck is installed
+  community.general.homebrew:
+    name: shellcheck

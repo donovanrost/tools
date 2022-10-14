@@ -61,3 +61,9 @@
         - nodejs
         - programming-languages
       description: Installs and configures nodejs
+
+    - role: go
+      tags:
+        - go
+        - programming-languages
+      description: Installs and configures go programming language

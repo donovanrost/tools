@@ -17,3 +17,4 @@
 - name: Add git aliase for cherry-pick
   shell:
     cmd: git config --global alias.cp cherry-pick
+

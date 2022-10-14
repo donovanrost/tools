@@ -1,7 +1,7 @@
 ---
-roles:
+#roles:
   # Install a role from Ansible Galaxy.
-  - name: cimon-io.asdf
+#  - name: cimon-io.asdf
 #    version: 1.9.6
 
 #collections:

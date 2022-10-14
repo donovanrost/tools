@@ -63,10 +63,15 @@
   shell: pyenv versions
   register: pyenv_versions_output
 
-- name: Download a modern version of python
-  shell: pyenv install 3.9.0
-  when: pyenv_versions_output.stdout is not search("3\.9\.0)"
+#- name: Download a modern version of python
+#  shell: pyenv install 3.9.0
+#  when: pyenv_versions_output.stdout is not search("3\.9\.0)"
+#
+#- name: Configure pyenv to point to the previously downloaded version
+#  shell: pyenv global 3.9.0
 
-- name: Configure pyenv to point to the previously downloaded version
-  shell: pyenv global 3.9.0
 
+- name: Ensure mas is installed
+  community.general.homebrew:
+    update_homebrew: yes
+    name: mas

@@ -16,7 +16,9 @@ class AnsibleModuleInstaller:
         return self.__roles
 
     def install_modules(self, modules):
-        base_cmd = f"ansible-playbook {self.__path_to_playbook} -i {self.__path_to_inventory}"
+        base_cmd = f"ansible-playbook {self.__path_to_playbook}  -i {self.__path_to_inventory}"
+
+        # base_cmd = f"ansible-playbook {self.__path_to_playbook} --ask-become-pass -i {self.__path_to_inventory}"
 
         if not modules:
             return
