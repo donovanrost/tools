@@ -1,14 +1,16 @@
 ---
 
-- name: Check if asdf plugin list has node
-  shell: asdf plugin list | grep node
-  register: has_node_plugin
-  failed_when: has_node_plugin.rc > 1
+- name: Check if asdf plugin list has {{ plugin }}
+  shell: asdf plugin list | grep {{ plugin }}
+  register: has_plugin
+  failed_when: has_plugin.rc > 1
 
-- name: Install node asdf plugin
-  shell: asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-  when: has_node_plugin.rc == 1
+- name: Install {{ plugin }} asdf plugin
+  shell: asdf plugin add {{ plugin }} {{ plugin_path if plugin_path else '' }}
+  when: has_plugin.rc == 1
 
-- name: Install nodejs version 18.10.0
-  shell: asdf install nodejs 18.10.0
+- name: Install {{ plugin }} version {{ version }}
+  shell: asdf install {{ plugin }} {{ version }}
 
+- name: Set Global version of {{ plugin }}
+  shell: asdf global {{ plugin }} {{ version }}

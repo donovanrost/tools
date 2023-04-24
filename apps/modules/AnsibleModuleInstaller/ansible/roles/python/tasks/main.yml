@@ -18,18 +18,18 @@
       - xz
       - zlib
 
-- name: Check if asdf plugin list has python
-  shell: asdf plugin list | grep python
-  register: has_python_plugin
-  failed_when: has_python_plugin.rc > 1
+- name: Check if asdf plugin list has {{ plugin }}
+  shell: asdf plugin list | grep {{ plugin }}
+  register: has_plugin
+  failed_when: has_plugin.rc > 1
 
-- name: Install python asdf plugin
-  shell: asdf plugin add python
-  when: has_python_plugin.rc == 1
+- name: Install {{ plugin }} asdf plugin
+  shell: asdf plugin add {{ plugin }} {{ plugin_path if plugin_path else '' }}
+  when: has_plugin.rc == 1
 
-- name: Install modern python version
-  shell: asdf install python 3.11.0
+- name: Install {{ plugin }} version {{ version }}
+  shell: asdf install {{ plugin }} {{ version }}
 
-- name: Set Global version of python
-  shell: asdf global python 3.11.0
+- name: Set Global version of {{ plugin }}
+  shell: asdf global {{ plugin }} {{ version }}
 

@@ -39,6 +39,9 @@
       description: Installs and configures docker and some related tooling
 
     - role: terraform
+      vars:
+        - version: latest
+
       tags:
         - terraform
         - cloud-tools
@@ -54,16 +57,23 @@
       tags:
         - python
         - programming-languages
+      vars:
+        - version: 3.11.0
+
       description: Installs and configures the python programming language
 
     - role: nodejs
       tags:
         - nodejs
         - programming-languages
+      vars:
+        - version: latest
       description: Installs and configures nodejs
 
     - role: go
       tags:
         - go
         - programming-languages
+      vars:
+        - version: latest
       description: Installs and configures go programming language

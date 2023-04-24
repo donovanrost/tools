@@ -7,32 +7,23 @@
     - gawk
     - coreutils
 
-- name: Check if asdf plugin list has terrform
-  shell: asdf plugin list | grep go
-  register: has_go_plugin
-  failed_when: has_go_plugin.rc > 1
+---
 
-- name: Install go asdf plugin
-  shell: asdf plugin-add golang
-  when: has_go_plugin.rc == 1
+- name: Check if asdf plugin list has {{ plugin }}
+  shell: asdf plugin list | grep {{ plugin }}
+  register: has_plugin
+  failed_when: has_plugin.rc > 1
 
-- name: Install go version
-  shell: asdf install golang latest
+- name: Install {{ plugin }} asdf plugin
+  shell: asdf plugin add {{ plugin }} {{ plugin_path if plugin_path else '' }}
+  when: has_plugin.rc == 1
 
-- name: Set Global Go Version
-  shell: asdf global golang latest
+- name: Install {{ plugin }} version {{ version }}
+  shell: asdf install {{ plugin }} {{ version }}
 
-#- name: Add Go to path
-#  blockinfile:
-#    state: absent
-#    path: "{{ profile_path }}"
-#    block: |
-#      export GOPATH=$(go env GOPATH)
-#      export GOROOT=$(go env GOROOT)
-#      export GOBIN=$(go env GOBIN)
-#      export PATH=$PATH:$GOPATH/bin
-#      export PATH=$PATH:$GOROOT/bin
-#      export PATH=$PATH:$GOBIN
+- name: Set Global version of {{ plugin }}
+  shell: asdf global {{ plugin }} {{ version }}
+
 
 # TODO Should I have some alias for this?
 # https://github.com/kennyp/asdf-golang#when-using-go-get-or-go-install
