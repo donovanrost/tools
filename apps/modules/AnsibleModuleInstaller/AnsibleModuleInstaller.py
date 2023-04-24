@@ -1,5 +1,16 @@
 import subprocess
+from collections import namedtuple
 from os.path import abspath, dirname
+
+from ansible import context
+from ansible.module_utils.common.collections import ImmutableDict
+from ansible.parsing.dataloader import DataLoader
+from ansible.vars.manager import VariableManager
+from ansible.inventory.manager import InventoryManager
+from ansible.executor.playbook_executor import PlaybookExecutor
+from ansible import context
+
+
 import yaml
 
 
@@ -16,15 +27,33 @@ class AnsibleModuleInstaller:
         return self.__roles
 
     def install_modules(self, modules):
-        base_cmd = f"ansible-playbook {self.__path_to_playbook}  -i {self.__path_to_inventory}"
 
-        # base_cmd = f"ansible-playbook {self.__path_to_playbook} --ask-become-pass -i {self.__path_to_inventory}"
+        loader = DataLoader()
+        inventory = InventoryManager(loader=loader, sources=[self.__path_to_inventory])
+        variable_manager = VariableManager(loader=loader, inventory=inventory)
 
-        if not modules:
-            return
-        for module in modules:
-            base_cmd += f" --tags \"{module}\""
-        subprocess.run(base_cmd, shell=True)
+        context.CLIARGS = ImmutableDict(
+            connection='local',
+            syntax=None,
+            forks=10,
+            become=None,
+            become_method=None,
+            become_user=None,
+            check=False,
+            diff=False,
+            start_at_task=None,
+            tags=modules
+        )
+
+        playbook = PlaybookExecutor(
+            playbooks=[self.__path_to_playbook],
+            inventory=inventory,
+            loader=loader,
+            passwords={},
+            variable_manager=variable_manager,
+        )
+
+        playbook.run()
 
     def __gather_roles(self):
         # the playbook can have multiple plays
