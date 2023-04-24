@@ -1,7 +1,7 @@
 ---
 
 - name: Check if asdf plugin list has terrform
-  shell: asdf plugin list | grep terraformn
+  shell: asdf plugin list | grep terraform
   register: has_tf_plugin
   failed_when: has_tf_plugin.rc > 1
 
