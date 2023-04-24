@@ -2,7 +2,10 @@
 
 - name: Ensure Go asdf plugin dependencies are installed
   community.general.homebrew:
-    name: gpg,gawk
+    name:
+    - gpg
+    - gawk
+    - coreutils
 
 - name: Check if asdf plugin list has terrform
   shell: asdf plugin list | grep go
@@ -16,16 +19,20 @@
 - name: Install go version
   shell: asdf install golang latest
 
-- name: Add Go to path
-  blockinfile:
-    path: "{{ profile_path }}"
-    block: |
-      export GOPATH=$(go env GOPATH)
-      export GOROOT=$(go env GOROOT)
-      export GOBIN=$(go env GOBIN)
-      export PATH=$PATH:$GOPATH/bin
-      export PATH=$PATH:$GOROOT/bin
-      export PATH=$PATH:$GOBIN
+- name: Set Global Go Version
+  shell: asdf global golang latest
+
+#- name: Add Go to path
+#  blockinfile:
+#    state: absent
+#    path: "{{ profile_path }}"
+#    block: |
+#      export GOPATH=$(go env GOPATH)
+#      export GOROOT=$(go env GOROOT)
+#      export GOBIN=$(go env GOBIN)
+#      export PATH=$PATH:$GOPATH/bin
+#      export PATH=$PATH:$GOROOT/bin
+#      export PATH=$PATH:$GOBIN
 
 # TODO Should I have some alias for this?
 # https://github.com/kennyp/asdf-golang#when-using-go-get-or-go-install
