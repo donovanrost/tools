@@ -2,7 +2,7 @@
 
 - name: Add alias to grep history
   lineinfile:
-    line: "alias gh='history|grep'"
+    line: "alias hg='history|grep'"
     path: "{{ alias_path }}"
 
 - name: Add alias to colorize grep output

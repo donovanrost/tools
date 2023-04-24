@@ -44,7 +44,10 @@
   community.general.homebrew:
     name: bottom
 
-
 - name: Ensure shellcheck is installed
   community.general.homebrew:
     name: shellcheck
+
+- name: Ensure lazygit is installed
+  community.general.homebrew:
+    name: lazygit
