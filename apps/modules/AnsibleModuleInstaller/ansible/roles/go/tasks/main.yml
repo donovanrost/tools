@@ -7,8 +7,6 @@
     - gawk
     - coreutils
 
----
-
 - name: Check if asdf plugin list has {{ plugin }}
   shell: asdf plugin list | grep {{ plugin }}
   register: has_plugin
